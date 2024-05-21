@@ -24,8 +24,10 @@ const Buttons = ({
                 }}/>
             <Button.Or/>
             <Button content='Wrong' negative 
-                onClick={() => dispatch({ type: CardActionTypes.next })}
-            />    
+                 onClick={() => {
+                    statsDispatch({ type: StatsActionType.wrong, question })
+                    dispatch({ type: CardActionTypes.next })
+                }}/>    
         </Button.Group>
     :   <Button content='Submit' onClick={() => submit()}/>
 }; 

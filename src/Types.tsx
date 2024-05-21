@@ -18,3 +18,30 @@ export type CardAction =
     | { type: CardActionTypes.next }
 
 
+export interface Stats {
+    right: number,
+    wrong: number,
+    skip: number
+};
+
+export interface StatsType {
+    [key: string]: Stats
+};
+
+interface StatsDispatch {
+    dispatch: ({type, question}:{type: string, question: string}) => void
+};
+
+export type StatsState = StatsType & StatsDispatch
+
+export enum StatsActionType {
+    right = 'right',
+    skip = 'skip',
+    wrong = 'wrong'
+};
+
+export type StatsAction = { 
+    type: StatsActionType, 
+    question: string 
+};
+

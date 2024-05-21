@@ -1,4 +1,4 @@
-import React, { useContext} from 'react';
+import React, { useContext, useState} from 'react';
 
 import {
     Button,
@@ -9,11 +9,16 @@ import {
 } from 'semantic-ui-react'
 
 import { CardContext } from '../../services/CardContext/card';
+
 import { CardActionTypes } from '../../Types';
+
+import Answer from '../Components/index1';
 
 const Answering = () => {
     const { cards, current, dispatch } = useContext(CardContext);
     const { question } = cards[current];
+
+    const [showAnswer, setShowAnswer] = useState(false);
 
 return (
     <Container data-testid='container' style={{position: 'absolute', left: 200}}>
@@ -22,7 +27,8 @@ return (
          <Form>
             <TextArea data-testid='textarea'/>
         </Form>
-        <Button>Submit</Button>
+        <Button onClick={() => setShowAnswer(true)}>Submit</Button>
+        <Answer visible={showAnswer}/>
     </Container>
     )}; 
 

@@ -45,3 +45,7 @@ export type StatsAction = {
     question: string 
 };
 
+export enum SceneTypes {
+    answering = "answering",
+    writing = "writing"
+};

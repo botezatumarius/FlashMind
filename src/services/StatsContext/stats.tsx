@@ -1,5 +1,6 @@
-import React, { createContext, useReducer } from 'react';
+import React, { createContext, useEffect, useReducer } from 'react';
 import { Stats, StatsAction, StatsState } from '../../Types';
+import { loadStats, saveStats } from '../Save/save';
 
 export const blankStats = {
     right: 0,
@@ -53,9 +54,12 @@ export const reducer = (state: StatsState, action: StatsAction) => {
     }
 };
 
-export const initialState = {
+export const getInitialState = () => ({
+    ...loadStats(),
     dispatch: (action: StatsAction) => undefined
-} as StatsState;
+} as StatsState);
+
+export const initialState = getInitialState();
 
 const StatsContext = createContext(initialState);
 
@@ -66,7 +70,13 @@ type StatsProviderProps = {
 
 const StatsProvider = ({ children, testState }: StatsProviderProps) => {
     const [state, dispatch] = useReducer(reducer, testState ? testState : initialState);
+    
+    useEffect(() => {
+        saveStats(state);
+    }, [state]);
+    
     const value = {...state, dispatch} as StatsState;
+    
     return (
         <StatsContext.Provider value={value}>
             {children}

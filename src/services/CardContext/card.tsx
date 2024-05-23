@@ -11,7 +11,7 @@ export const reducer = (state: CardState, action: any) => {
             const newCards = [...cards];
             const index = newCards.findIndex(card => card.question === question);
             newCards.splice(index, 1);
-            current = current -1;
+            current = current - 1;
             if(current < 0) current = 0;
             return {
                 ...state,
@@ -34,15 +34,11 @@ export const reducer = (state: CardState, action: any) => {
                 current: next
             }
         }
-        case 'save': {
+        case 'save' :{
             const { cards } = state;
             const { answer, question, subject } = action;
             const index = cards.findIndex(card => card.question === question);
-            const card = {
-                answer,
-                question,
-                subject
-            } as Card;
+            const card = { answer, question, subject } as Card;
             const newCards = cards.filter(v => !!v.question);
             if (index > -1) {
                 newCards[index] = card;
@@ -54,13 +50,46 @@ export const reducer = (state: CardState, action: any) => {
                 cards: newCards
             }
         }
+        case 'select' : {
+            const { cards } = state;
+            const { question } = action;
+            if (!question) return state;            
+            const current = cards.findIndex(card => card.question === question);
+            if (current < 0 ) return state;
+            return {
+                ...state,
+                current
+            }
+        }
+        case 'showAdd': {
+            const { subject } = action;
+            const show = [...state.show];
+            !show.includes(subject) && show.push(subject);
+            return {
+                ...state,
+                show
+            }
+        }
+        case 'showAll': {
+            return {
+                ...state,
+                show: []
+            }
+        }
+        case 'showRemove': {
+            const { subject } = action;
+            const show = state.show.filter(subj => subj !== subject);
+            return {
+                ...state,
+                show
+            }
+        }
         default: 
-            return state;
-    }
+            return state
+    };
 };
 
 export const initialState = getInitialState(); 
-
 const CardContext = createContext(initialState);
 
 type CardProviderProps = {
@@ -69,14 +98,14 @@ type CardProviderProps = {
     testDispatch?: (arg: any) => void;
 };
 
-const CardProvider = ({ children, testState, testDispatch }: CardProviderProps) => {
+const CardProvider = ({ children, testState, testDispatch }: CardProviderProps ) => {
     const [state, dispatch] = useReducer(reducer, testState ? testState : initialState);
 
     useEffect(() => {
         saveCards(state.cards);
     }, [state.cards]);
 
-    const value = { ...state, dispatch };
+    const value = {...state, dispatch};
 
     return (
         <CardContext.Provider value={value}>

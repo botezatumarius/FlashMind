@@ -6,6 +6,7 @@ import { CardProvider } from './services/CardContext/card';
 import { StatsProvider } from './services/StatsContext/stats';
 import { SceneTypes } from './Types';
 import NavBar from './components/navBar';
+import Selector from './components/selector';
 import 'semantic-ui-css/semantic.min.css'
 
 const App: React.FC = () => {
@@ -16,6 +17,7 @@ const App: React.FC = () => {
       <CardProvider>
         <StatsProvider>
           <NavBar showScene={showScene} setShowScene={setShowScene} />
+          <Selector/>
           {showScene === SceneTypes.answering && <Answering />}
           {showScene === SceneTypes.writing && <Writing/>}
         </StatsProvider>

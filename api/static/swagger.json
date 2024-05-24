@@ -1,0 +1,152 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+      "title": "FlashMind API",
+      "description": "API for managing FlashMind cards",
+      "version": "1.0.0"
+    },
+    "servers": [
+      {
+        "url": "http://localhost:5000",
+        "description": "Local development server"
+      }
+    ],
+    "paths": {
+      "/flashmind": {
+        "post": {
+          "summary": "Create a new FlashMind card",
+          "requestBody": {
+            "required": true,
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "question": {
+                      "type": "string"
+                    },
+                    "answer": {
+                      "type": "string"
+                    },
+                    "subject": {
+                      "type": "string"
+                    }
+                  },
+                  "required": ["question", "answer", "subject"]
+                }
+              }
+            }
+          },
+          "responses": {
+            "201": {
+              "description": "Card created successfully"
+            }
+          }
+        },
+        "get": {
+          "summary": "Get all FlashMind cards",
+          "responses": {
+            "200": {
+              "description": "Successful operation",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "object",
+                    "properties": {
+                      "cards": {
+                        "type": "array",
+                        "items": {
+                          "type": "object",
+                          "properties": {
+                            "id": {
+                              "type": "integer"
+                            },
+                            "question": {
+                              "type": "string"
+                            },
+                            "answer": {
+                              "type": "string"
+                            },
+                            "subject": {
+                              "type": "string"
+                            }
+                          },
+                          "required": ["id", "question", "answer", "subject"]
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "/flashmind/{id}": {
+        "put": {
+          "summary": "Update a FlashMind card",
+          "parameters": [
+            {
+              "name": "id",
+              "in": "path",
+              "required": true,
+              "schema": {
+                "type": "integer"
+              }
+            }
+          ],
+          "requestBody": {
+            "required": true,
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "question": {
+                      "type": "string"
+                    },
+                    "answer": {
+                      "type": "string"
+                    },
+                    "subject": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "responses": {
+            "200": {
+              "description": "Card updated successfully"
+            },
+            "404": {
+              "description": "Card not found"
+            }
+          }
+        },
+        "delete": {
+          "summary": "Delete a FlashMind card",
+          "parameters": [
+            {
+              "name": "id",
+              "in": "path",
+              "required": true,
+              "schema": {
+                "type": "integer"
+              }
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "Card deleted successfully"
+            },
+            "404": {
+              "description": "Card not found"
+            }
+          }
+        }
+      }
+    }
+  }
+  

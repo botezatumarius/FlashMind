@@ -33,7 +33,7 @@ const Answering = () => {
             flexDirection: 'column', 
             justifyContent: 'flex-start', 
             alignItems: 'center', 
-            marginTop: '20px' // Adjust this value to control the top margin
+            marginTop: '20px' 
         }}>
             <Header data-testid='question'>
                 <Stats/>{question}
@@ -47,7 +47,7 @@ const Answering = () => {
                     data-testid='textarea'
                     value={input}
                     onChange={(e: any, {value}) => typeof(value) === 'string' && setInput(value)}
-                    style={{ width: '400px', height: '200px' }} // Adjust these values as needed
+                    style={{ width: '400px', height: '200px' }} 
                 />
             </Form>
             <Buttons answered={showAnswer} submit={() => setShowAnswer(true)}/>

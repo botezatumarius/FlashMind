@@ -19,8 +19,8 @@ import { CardActionTypes } from '../../Types';
 const Writing = () => {
     const { cards, current, dispatch } = useContext(CardContext);
     const card = cards[current];
-    const [question, setQuestion ] = useState(card ? card.question : '')
-    const [answer, setAnswer ] = useState(card ? card.answer : '')
+    const [question, setQuestion ] = useState(card ? card.question : '');
+    const [answer, setAnswer ] = useState(card ? card.answer : '');
     const [subject, setSubject ] = useState(card ? card.subject : '');
 
     const clearAll = useCallback(
@@ -49,9 +49,15 @@ const Writing = () => {
     ]);
 
     return (
-        <Container style={{position: 'absolute', left: 200}}>
-            <Button content='New Card' onClick={() => dispatch({type: CardActionTypes.new})}/>
-            <Button content='Delete this Card' onClick={() => dispatch({type: CardActionTypes.delete, question})}/>
+        <Container style={{
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
+            marginTop: '20px',
+            width: '50%' 
+        }}>
+            <Button style={{marginBottom:'10px'}} content='New Card' onClick={() => dispatch({type: CardActionTypes.new})}/>
+            <Button style={{marginBottom:'10px'}} content='Delete this Card' onClick={() => dispatch({type: CardActionTypes.delete, question})}/>
             <Form 
                 onSubmit={(e: React.FormEvent<HTMLFormElement>) => {
                     e.preventDefault();
@@ -74,14 +80,19 @@ const Writing = () => {
                 <Header as='h3' content='Question'/> 
                 <TextArea data-testid='question' name='question'
                     onChange={(e, { value }) => setQuestion(value!.toString())}
-                    value={question}/>
+                    value={question}
+                    style={{ width: '100%', height: '150px' }} 
+                />
                 <Header as='h3' content='Answer'/> 
                 <TextArea data-testid='answer' name='answer'
                     onChange={(e, { value }) => setAnswer(value!.toString())}
-                    value={answer}/>
+                    value={answer}
+                    style={{ width: '100%', height: '150px' }} 
+                />
                 <Button content='Save'/>
             </Form>
         </Container>
-    )};
+    );
+};
 
 export default Writing;

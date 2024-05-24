@@ -1,16 +1,14 @@
 import React, { useState, useContext, useEffect } from 'react';
-
 import {
     Button,
     Container,
     Form,
     Header,
     TextArea
-} from 'semantic-ui-react'
+} from 'semantic-ui-react';
 
 import { CardContext } from '../../services/CardContext/card';
 import { CardActionTypes, StatsActionType } from '../../Types';
-
 import { StatsContext } from '../../services/StatsContext/stats';
 
 import Answer from '../Components/index1';
@@ -29,21 +27,33 @@ const Answering = () => {
         setInput('');
     }, [current, setShowAnswer]);
     
-return (
-    <Container data-testid='container' style={{position: 'absolute', left: 200}}>
-         <Header data-testid='question'><Stats/>{question}</Header>
-         <Button onClick={() => {
-            dispatch({type: CardActionTypes.next});
-            statsDispatch({type: StatsActionType.skip, question});   
-         }}>Skip</Button>
-         <Form>
-            <TextArea data-testid='textarea'
-                value={input}
-                onChange={(e: any, {value}) => typeof(value) === 'string' && setInput(value)}/>
-        </Form>
-        <Buttons answered={showAnswer} submit={() => setShowAnswer(true)}/>
-        <Answer visible={showAnswer}/>
-    </Container>
-    )}; 
+    return (
+        <Container data-testid='container' style={{
+            display: 'flex', 
+            flexDirection: 'column', 
+            justifyContent: 'flex-start', 
+            alignItems: 'center', 
+            marginTop: '20px' // Adjust this value to control the top margin
+        }}>
+            <Header data-testid='question'>
+                <Stats/>{question}
+            </Header>
+            <Button onClick={() => {
+                dispatch({type: CardActionTypes.next});
+                statsDispatch({type: StatsActionType.skip, question});   
+            }}>Skip</Button>
+            <Form>
+                <TextArea 
+                    data-testid='textarea'
+                    value={input}
+                    onChange={(e: any, {value}) => typeof(value) === 'string' && setInput(value)}
+                    style={{ width: '400px', height: '200px' }} // Adjust these values as needed
+                />
+            </Form>
+            <Buttons answered={showAnswer} submit={() => setShowAnswer(true)}/>
+            <Answer visible={showAnswer}/>
+        </Container>
+    );
+}; 
 
 export default Answering;

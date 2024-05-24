@@ -1,7 +1,7 @@
 import React, { createContext, useEffect, useReducer } from 'react';
 import { Card, CardState } from '../../Types';
 import { saveCards } from '../Save/save';
-import { getInitialState } from './initialState';
+import { getInitialState, getNext } from './initialState';
 
 export const reducer = (state: CardState, action: any) => {
     switch(action.type) {
@@ -11,7 +11,7 @@ export const reducer = (state: CardState, action: any) => {
             const newCards = [...cards];
             const index = newCards.findIndex(card => card.question === question);
             newCards.splice(index, 1);
-            current = current - 1;
+            current = current -1;
             if(current < 0) current = 0;
             return {
                 ...state,
@@ -26,15 +26,14 @@ export const reducer = (state: CardState, action: any) => {
             }
         }
         case 'next': {
-            const { cards, current } = state;
-            const total = cards.length - 1;
-            const next = current + 1 <= total ? current + 1 : 0;
+            const { cards, current, show } = state;
+            const next = getNext({ cards, current, show });
             return {
                 ...state,
                 current: next
             }
         }
-        case 'save' :{
+        case 'save': {
             const { cards } = state;
             const { answer, question, subject } = action;
             const index = cards.findIndex(card => card.question === question);
@@ -50,7 +49,7 @@ export const reducer = (state: CardState, action: any) => {
                 cards: newCards
             }
         }
-        case 'select' : {
+        case 'select': {
             const { cards } = state;
             const { question } = action;
             if (!question) return state;            
@@ -86,16 +85,17 @@ export const reducer = (state: CardState, action: any) => {
         }
         default: 
             return state
-    };
+    }
 };
 
 export const initialState = getInitialState(); 
+
 const CardContext = createContext(initialState);
 
 type CardProviderProps = {
     children: React.ReactNode;
-    testState?: CardState;
-    testDispatch?: (arg: any) => void;
+    testState?: CardState,
+    testDispatch?: (arg: any) => void
 };
 
 const CardProvider = ({ children, testState, testDispatch }: CardProviderProps ) => {
@@ -103,7 +103,7 @@ const CardProvider = ({ children, testState, testDispatch }: CardProviderProps )
 
     useEffect(() => {
         saveCards(state.cards);
-    }, [state.cards]);
+    }, [state.cards])
 
     const value = {...state, dispatch};
 
@@ -111,7 +111,7 @@ const CardProvider = ({ children, testState, testDispatch }: CardProviderProps )
         <CardContext.Provider value={value}>
             {children}
         </CardContext.Provider>
-    );
+    )
 };
 
 export { 

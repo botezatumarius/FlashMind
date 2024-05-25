@@ -1,8 +1,8 @@
 import { useContext } from 'react';
 import { AppBar, Tab, Tabs, useTheme } from '@mui/material';
-import { SceneTypes } from '../Types';
-import { CardContext } from '../services/CardContext/card';
-import { CardActionTypes } from '../Types';
+import { SceneTypes } from '../Types.tsx';
+import { CardContext } from '../services/CardContext/card.tsx';
+import { CardActionTypes } from '../Types.tsx';
 
 const NavBar = ({
     setShowScene,

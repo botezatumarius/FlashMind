@@ -1,7 +1,7 @@
 import { useCallback, useContext, useEffect, useState } from 'react';
 import { Button, Container, TextField, Typography } from '@mui/material';
-import { CardContext } from '../../services/CardContext/card';
-import { CardActionTypes } from '../../Types';
+import { CardContext } from '../../services/CardContext/card.tsx';
+import { CardActionTypes } from '../../Types.tsx';
 
 const Writing = () => {
     const { cards, current, dispatch } = useContext(CardContext);

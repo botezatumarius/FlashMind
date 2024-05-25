@@ -6,13 +6,13 @@ import {
     Typography,
 } from '@mui/material';
 
-import { CardContext } from '../../services/CardContext/card';
-import { CardActionTypes, StatsActionType } from '../../Types';
-import { StatsContext } from '../../services/StatsContext/stats';
+import { CardContext } from '../../services/CardContext/card.tsx';
+import { CardActionTypes, StatsActionType } from '../../Types.tsx';
+import { StatsContext } from '../../services/StatsContext/stats.tsx';
 
-import Answer from '../Components/index1';
-import Buttons from '../Components/rightWrongButton';
-import Stats from '../Components/stats';
+import Answer from '../Components/index1.tsx';
+import Buttons from '../Components/rightWrongButton.tsx';
+import Stats from '../Components/stats.tsx';
 
 const Answering = () => {
     const { cards, current, dispatch } = useContext(CardContext);

@@ -1,4 +1,4 @@
-import { Card, StatsType } from '../../Types';
+import { Card, StatsType } from '../../Types.tsx';
 
 export const saveCards = (cards: Card[]) => {
   try {

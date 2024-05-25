@@ -1,7 +1,7 @@
 import React, { createContext, useEffect, useReducer } from 'react';
-import { Card, CardState } from '../../Types';
-import { saveCards } from '../Save/save';
-import { getInitialState, getNext } from './initialState';
+import { Card, CardState } from '../../Types.tsx';
+import { saveCards } from '../Save/save.tsx';
+import { getInitialState, getNext } from './initialState.tsx';
 
 export const reducer = (state: CardState, action: any) => {
     switch(action.type) {

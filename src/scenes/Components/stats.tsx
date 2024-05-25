@@ -2,8 +2,8 @@ import { useContext } from 'react';
 import Tooltip from '@mui/material/Tooltip';
 import Typography from '@mui/material/Typography';
 import QuestionCircleIcon from '@mui/icons-material/HelpOutline';
-import { CardContext } from '../../services/CardContext/card';
-import { StatsContext } from '../../services/StatsContext/stats';
+import { CardContext } from '../../services/CardContext/card.tsx';
+import { StatsContext } from '../../services/StatsContext/stats.tsx';
 
 const Stats = () => {
     const { cards, current } = useContext(CardContext);

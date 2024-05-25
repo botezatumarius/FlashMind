@@ -1,9 +1,9 @@
 import { useContext } from 'react';
 import Button from '@mui/material/Button';
 import ButtonGroup from '@mui/material/ButtonGroup';
-import { CardActionTypes, StatsActionType } from '../../Types';
-import { CardContext } from '../../services/CardContext/card';
-import { StatsContext } from '../../services/StatsContext/stats';
+import { CardActionTypes, StatsActionType } from '../../Types.tsx';
+import { CardContext } from '../../services/CardContext/card.tsx';
+import { StatsContext } from '../../services/StatsContext/stats.tsx';
 
 const Buttons = ({
     answered,

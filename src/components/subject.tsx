@@ -1,7 +1,7 @@
 import { Fragment, useContext } from 'react';
 import { Icon, Menu } from 'semantic-ui-react';
-import { CardContext } from '../services/CardContext/card';
-import { CardActionTypes } from '../Types';
+import { CardContext } from '../services/CardContext/card.tsx';
+import { CardActionTypes } from '../Types.tsx';
 
 const Subject = ({
     subject

@@ -1,5 +1,5 @@
-import { loadCards } from '../Save/save';
-import { Card, CardState } from '../../Types';
+import { loadCards } from '../Save/save.tsx';
+import { Card, CardState } from '../../Types.tsx';
 
 const card1: Card = {
     question: 'What is a linked list?',

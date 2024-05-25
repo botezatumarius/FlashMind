@@ -1,6 +1,6 @@
 import React, { createContext, useEffect, useReducer } from 'react';
-import { Stats, StatsAction, StatsState } from '../../Types';
-import { loadStats, saveStats } from '../Save/save';
+import { Stats, StatsAction, StatsState } from '../../Types.tsx';
+import { loadStats, saveStats } from '../Save/save.tsx';
 
 export const blankStats = {
     right: 0,

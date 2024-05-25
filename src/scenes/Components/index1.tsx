@@ -1,5 +1,5 @@
 import { useContext } from 'react';
-import { CardContext } from '../../services/CardContext/card';
+import { CardContext } from '../../services/CardContext/card.tsx';
 import { Typography, Slide } from '@mui/material';
 
 const Answer = ({

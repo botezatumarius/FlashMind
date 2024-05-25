@@ -1,9 +1,9 @@
 import React, { useContext } from 'react';
 import { Drawer, List, ListItem, ListItemText } from '@mui/material';
 
-import { CardContext } from '../services/CardContext/card';
-import { CardActionTypes, Card } from '../Types';
-import Subject from './subject'; 
+import { CardContext } from '../services/CardContext/card.tsx';
+import { CardActionTypes, Card } from '../Types.tsx';
+import Subject from './subject.tsx'; 
 
 const Selector: React.FC = () => {
     const { cards, dispatch} = useContext(CardContext);

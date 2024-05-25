@@ -20,7 +20,7 @@ const card2: Card = {
 
 export const cards = [card1, card2];
 
-const loadedCards = loadCards();
+let loadedCards = loadCards();
 
 const shuffle = (array: any[]) => {
     if (array.length > 0) {

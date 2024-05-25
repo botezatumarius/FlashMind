@@ -13,25 +13,15 @@ const Subject = ({
     const currentCard = cards[current];
     const expanded = show.includes(subject);
     const subjectCards = cards
-    .filter(card => card.subject === subject)
-    .sort((a, b) => 
-      a.question.toLowerCase().localeCompare(b.question.toLowerCase()))
-
-    const cardsChild = subjectCards
-    .map(card => {
-      const { question } = card;
-      return <Menu.Item 
-              active={!!currentCard && question === currentCard.question}
-              as='a'
-              content={question}
-              key={question}
-              onClick={() => dispatch({type: CardActionTypes.select, question})}
-              />
-        });
+      .filter(card => card.subject === subject)
+      .sort((a, b) => 
+        a.question.toLowerCase().localeCompare(b.question.toLowerCase()))
 
     return (
         <Fragment>
-            <Menu.Item as='a'
+            <Menu.Item 
+                as='a'
+                style={{ cursor: 'pointer' }} 
                 active={!!currentCard && currentCard.subject === subject}
                 onClick={() => expanded 
                     ? dispatch({type: CardActionTypes.showRemove, subject})
@@ -39,8 +29,23 @@ const Subject = ({
                 <Icon name='list'/>
                 {subject}
             </Menu.Item>
-            {expanded && cardsChild}
+            {expanded && (
+                <div>
+                    {subjectCards.map((card) => (
+                        <div key={card.question}>
+                            <Menu.Item 
+                                as='a'
+                                style={{ cursor: 'pointer' }} 
+                                active={!!currentCard && card.question === currentCard.question}
+                                content={card.question}
+                                onClick={() => dispatch({type: CardActionTypes.select, question: card.question})}
+                            />
+                        </div>
+                    ))}
+                </div>
+            )}
         </Fragment>
-    )};
+    );
+};
   
 export default Subject;

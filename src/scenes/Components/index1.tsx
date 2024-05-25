@@ -1,6 +1,6 @@
 import React, { useContext } from 'react';
 import { CardContext } from '../../services/CardContext/card';
-import { Header, Transition } from 'semantic-ui-react';
+import { Typography, Slide } from '@mui/material';
 
 const Answer = ({
     visible
@@ -12,15 +12,16 @@ const Answer = ({
 
     const content = answer
         .split(/\n/g)
-        .map((string, index) => <div key={index}>{string}</div>);
-        
-return (
-    <Transition visible={visible} animation='drop' duration={500} unmountOnHide>
-        <div data-testid='answer'>
-            <Header as='h3' content ='Answer'/>
-            {content}
-        </div>
-    </Transition>
-)};
+        .map((string, index) => <Typography key={index} variant="body1">{string}</Typography>);
+
+    return (
+        <Slide direction="up" in={visible} mountOnEnter unmountOnExit>
+            <div data-testid='answer'>
+                <Typography variant="h6">Answer</Typography>
+                {content}
+            </div>
+        </Slide>
+    );
+};
 
 export default Answer;

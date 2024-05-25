@@ -2,10 +2,10 @@ import React, { useState, useContext, useEffect } from 'react';
 import {
     Button,
     Container,
-    Form,
-    Header,
-    TextArea
-} from 'semantic-ui-react';
+    TextField,
+    Typography,
+    Tooltip, 
+} from '@mui/material';
 
 import { CardContext } from '../../services/CardContext/card';
 import { CardActionTypes, StatsActionType } from '../../Types';
@@ -18,7 +18,7 @@ import Stats from '../Components/stats';
 const Answering = () => {
     const { cards, current, dispatch } = useContext(CardContext);
     const { dispatch: statsDispatch } = useContext(StatsContext);
-    const { question } = cards[current];
+    const card = cards[current];
     const [showAnswer, setShowAnswer] = useState(false);
     const [input, setInput] = useState('');
 
@@ -26,30 +26,35 @@ const Answering = () => {
         setShowAnswer(false);
         setInput('');
     }, [current, setShowAnswer]);
+
+    if (!card) {
+        return null; 
+    }
+
+    const { question } = card;
     
     return (
-        <Container data-testid='container' style={{
-            display: 'flex', 
-            flexDirection: 'column', 
-            justifyContent: 'flex-start', 
-            alignItems: 'center', 
-            marginTop: '20px' 
-        }}>
-            <Header data-testid='question'>
-                <Stats/>{question}
-            </Header>
+        <Container style={{ marginTop: '20px' }}>
+            <Typography variant="h5" gutterBottom>
+                {question}
+                    <span style={{ verticalAlign: 'middle', marginLeft: '8px' }}> 
+                        <Stats />
+                    </span>
+
+            </Typography>
             <Button onClick={() => {
                 dispatch({type: CardActionTypes.next});
                 statsDispatch({type: StatsActionType.skip, question});   
             }}>Skip</Button>
-            <Form>
-                <TextArea 
-                    data-testid='textarea'
-                    value={input}
-                    onChange={(e: any, {value}) => typeof(value) === 'string' && setInput(value)}
-                    style={{ width: '400px', height: '200px' }} 
-                />
-            </Form>
+            <TextField
+                label="Your Answer"
+                variant="outlined"
+                multiline
+                rows={4}
+                value={input}
+                onChange={(e) => setInput(e.target.value)}
+                style={{ width: '100%', marginTop: '20px' }}
+            />
             <Buttons answered={showAnswer} submit={() => setShowAnswer(true)}/>
             <Answer visible={showAnswer}/>
         </Container>

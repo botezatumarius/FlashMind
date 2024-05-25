@@ -1,96 +1,84 @@
-import React, { 
-    useCallback, 
-    useContext, 
-    useEffect, 
-    useState,
-} from 'react';
-
-import { 
-    Button,
-    Container,
-    Form,
-    Header,
-    Input,
-    TextArea
-} from 'semantic-ui-react';
+import React, { useCallback, useContext, useEffect, useState } from 'react';
+import { Button, Container, TextField, Typography } from '@mui/material';
 import { CardContext } from '../../services/CardContext/card';
 import { CardActionTypes } from '../../Types';
 
 const Writing = () => {
     const { cards, current, dispatch } = useContext(CardContext);
     const card = cards[current];
-    const [question, setQuestion ] = useState(card ? card.question : '');
-    const [answer, setAnswer ] = useState(card ? card.answer : '');
-    const [subject, setSubject ] = useState(card ? card.subject : '');
+    const [question, setQuestion] = useState(card ? card.question : '');
+    const [answer, setAnswer] = useState(card ? card.answer : '');
+    const [subject, setSubject] = useState(card ? card.subject : '');
 
-    const clearAll = useCallback(
-        () => {
-            setQuestion('');
-            setAnswer('');
-            setSubject('');
-    }, [
-        setQuestion,
-        setAnswer,
-        setSubject
-    ]);
+    const clearAll = useCallback(() => {
+        setQuestion('');
+        setAnswer('');
+        setSubject('');
+    }, []);
 
     useEffect(() => {
-        if (!!card) {
+        if (card) {
             const { question, answer, subject } = card;
             setQuestion(question);
             setAnswer(answer);
             setSubject(subject);
         } else {
             clearAll();
-        };
-    }, [
-        card,
-        clearAll 
-    ]);
+        }
+    }, [card, clearAll]);
 
     return (
-        <Container style={{
-            display: 'flex',
-            flexDirection: 'column',
-            alignItems: 'center',
-            marginTop: '20px',
-            width: '50%' 
-        }}>
-            <Button style={{marginBottom:'10px'}} content='New Card' onClick={() => dispatch({type: CardActionTypes.new})}/>
-            <Button style={{marginBottom:'10px'}} content='Delete this Card' onClick={() => dispatch({type: CardActionTypes.delete, question})}/>
-            <Form 
-                onSubmit={(e: React.FormEvent<HTMLFormElement>) => {
-                    e.preventDefault();
-                    const card = new FormData(e.target as HTMLFormElement);
-                    const answer = card.get('answer') as string;
-                    const question = card.get('question') as string;
-                    const subject = card.get('subject') as string;
-
-                    dispatch({
-                        type: CardActionTypes.save,
-                        answer,
-                        question,
-                        subject
-                    });
-                }}>
-                <Header as='h3'>Subject</Header> 
-                <Input data-testid='subject' name='subject'
-                    onChange={(e, { value }) => setSubject(value)}
-                    value={subject}/>
-                <Header as='h3' content='Question'/> 
-                <TextArea data-testid='question' name='question'
-                    onChange={(e, { value }) => setQuestion(value!.toString())}
+        <Container style={{ marginTop: '20px', width: '50%' }}>
+            <Button style={{ marginBottom: '10px', marginRight:'20px' }} variant="contained" onClick={() => dispatch({ type: CardActionTypes.new })}>New Card</Button>
+            <Button style={{ marginBottom: '10px' }} variant="contained" onClick={() => dispatch({ type: CardActionTypes.delete, question })}>Delete this Card</Button>
+            <form onSubmit={(e) => {
+                e.preventDefault();
+                dispatch({
+                    type: CardActionTypes.save,
+                    answer,
+                    question,
+                    subject
+                });
+            }}>
+                <Typography variant="h6" gutterBottom>Subject</Typography>
+                <TextField
+                    id="subject"
+                    data-testid='subject'
+                    name='subject'
+                    placeholder="Enter subject"
+                    onChange={(e) => setSubject(e.target.value)}
+                    value={subject}
+                    variant="outlined"
+                    fullWidth
+                />
+                <Typography variant="h6" gutterBottom>Question</Typography>
+                <TextField
+                    id="question"
+                    data-testid='question'
+                    name='question'
+                    multiline
+                    rows={4}
+                    placeholder="Enter question"
+                    onChange={(e) => setQuestion(e.target.value)}
                     value={question}
-                    style={{ width: '100%', height: '150px' }} 
+                    variant="outlined"
+                    fullWidth
                 />
-                <Header as='h3' content='Answer'/> 
-                <TextArea data-testid='answer' name='answer'
-                    onChange={(e, { value }) => setAnswer(value!.toString())}
+                <Typography variant="h6" gutterBottom>Answer</Typography>
+                <TextField
+                    id="answer"
+                    data-testid='answer'
+                    name='answer'
+                    multiline
+                    rows={4}
+                    placeholder="Enter answer"
+                    onChange={(e) => setAnswer(e.target.value)}
                     value={answer}
-                    style={{ width: '100%', height: '150px' }} 
+                    variant="outlined"
+                    fullWidth
                 />
-                <Button content='Save'/>
-            </Form>
+                <Button type="submit" variant="contained" style={{ marginTop: '10px' }}>Save</Button>
+            </form>
         </Container>
     );
 };

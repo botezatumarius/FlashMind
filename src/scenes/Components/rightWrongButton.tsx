@@ -1,5 +1,6 @@
 import React, { useContext } from 'react';
-import { Button } from 'semantic-ui-react';
+import Button from '@mui/material/Button';
+import ButtonGroup from '@mui/material/ButtonGroup';
 import { CardActionTypes, StatsActionType } from '../../Types';
 import { CardContext } from '../../services/CardContext/card';
 import { StatsContext } from '../../services/StatsContext/stats';
@@ -7,7 +8,7 @@ import { StatsContext } from '../../services/StatsContext/stats';
 const Buttons = ({
     answered,
     submit
-}:{
+}: {
     answered: boolean,
     submit: () => void
 }) => {
@@ -15,21 +16,37 @@ const Buttons = ({
     const { question } = cards[current];
     const { dispatch: statsDispatch } = useContext(StatsContext);
 
-    return answered
-    ?   <Button.Group>
-            <Button content='Right' positive 
+    return answered ? (
+        <ButtonGroup>
+            <Button 
+                variant="contained" 
+                color="success" 
                 onClick={() => {
                     statsDispatch({ type: StatsActionType.right, question })
                     dispatch({ type: CardActionTypes.next })
-                }}/>
-            <Button.Or/>
-            <Button content='Wrong' negative 
-                 onClick={() => {
+                }}
+            >
+                Right
+            </Button>
+            <Button 
+                variant="contained" 
+                color="error" 
+                onClick={() => {
                     statsDispatch({ type: StatsActionType.wrong, question })
                     dispatch({ type: CardActionTypes.next })
-                }}/>    
-        </Button.Group>
-    :   <Button content='Submit' onClick={() => submit()}/>
+                }}
+            >
+                Wrong
+            </Button>
+        </ButtonGroup>
+    ) : (
+        <Button 
+            variant="contained" 
+            onClick={() => submit()}
+        >
+            Submit
+        </Button>
+    );
 }; 
 
 export default Buttons;

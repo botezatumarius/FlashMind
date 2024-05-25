@@ -1,36 +1,43 @@
 import React, { useContext } from 'react';
-import {
-    Menu,
-    Sidebar
-} from 'semantic-ui-react';
-import { CardContext } from '../services/CardContext/card';
-import { CardActionTypes } from '../Types';
-import Subject from './subject';
+import { Drawer, List, ListItem, ListItemText } from '@mui/material';
 
-const Selector = () => {
+import { CardContext } from '../services/CardContext/card';
+import { CardActionTypes, Card } from '../Types';
+import Subject from './subject'; 
+
+const Selector: React.FC = () => {
     const { cards, dispatch, show } = useContext(CardContext);
-    
-    const subjectArray = cards.map(card => card.subject);
-    
-    const subjectSet = new Set(subjectArray);
-    
-    const subjects = Array.from(subjectSet)
-                    .sort((a, b) => a.toLowerCase().localeCompare(b.toLowerCase()));
+
+    const groupedCards: { [key: string]: Card[] } = {};
+    cards.forEach((card: Card) => {
+        if (!groupedCards[card.subject]) {
+            groupedCards[card.subject] = [];
+        }
+        groupedCards[card.subject].push(card);
+    });
+
+    const sortedSubjects = Object.keys(groupedCards).sort();
+
     return (
-        <Sidebar
-        as={Menu}
-        data-testid='sidebar'
-        style={{top: 50}}
-        vertical
-        visible
-        width='thin'
-      >
-        <Menu.Item as='a' onClick={() => dispatch({type: CardActionTypes.showAll})}>
-            Subjects{!!show.length && `: ${show.length}`}
-        </Menu.Item>
-        {subjects.map(subject => <Subject key={subject} subject={subject}/>)}
-      </Sidebar>
-    )    
+        <Drawer
+            variant="permanent"
+            anchor="left"
+            style={{top: 50, width: '300px'}}
+            open={false}
+            PaperProps={{ style: { width: '170px' } }}
+        >
+            <List>
+                <ListItem onClick={() => dispatch({type: CardActionTypes.showAll})}>
+                    <ListItemText primary={`Subjects`} />
+                </ListItem>
+                {sortedSubjects.map((subject: string) => (
+                    <div key={subject}>
+                        <Subject subject={subject} />
+                    </div>
+                ))}
+            </List>
+        </Drawer>
+    );
 };
 
 export default Selector;

@@ -6,7 +6,7 @@ import { CardActionTypes, Card } from '../Types';
 import Subject from './subject'; 
 
 const Selector: React.FC = () => {
-    const { cards, dispatch, show } = useContext(CardContext);
+    const { cards, dispatch} = useContext(CardContext);
 
     const groupedCards: { [key: string]: Card[] } = {};
     cards.forEach((card: Card) => {

@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import { useContext } from 'react';
 import { AppBar, Tab, Tabs, useTheme } from '@mui/material';
 import { SceneTypes } from '../Types';
 import { CardContext } from '../services/CardContext/card';
@@ -17,7 +17,7 @@ const NavBar = ({
 
     return (
         <AppBar position="static" style={{ backgroundColor }} data-testid='menu'>
-            <Tabs value={showScene} onChange={(e, newValue) => setShowScene(newValue)} aria-label="NavBar tabs">
+            <Tabs value={showScene} onChange={(_, newValue) => setShowScene(newValue)} aria-label="NavBar tabs"> 
                 <Tab label="FlashMind" disabled />
                 <Tab 
                     label="Answer Flashcards"

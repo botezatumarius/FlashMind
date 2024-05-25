@@ -1,4 +1,4 @@
-import React, { Fragment, useContext } from 'react';
+import { Fragment, useContext } from 'react';
 import { Icon, Menu } from 'semantic-ui-react';
 import { CardContext } from '../services/CardContext/card';
 import { CardActionTypes } from '../Types';

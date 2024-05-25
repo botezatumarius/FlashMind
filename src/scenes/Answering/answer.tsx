@@ -1,10 +1,9 @@
-import React, { useState, useContext, useEffect } from 'react';
+import { useState, useContext, useEffect } from 'react';
 import {
     Button,
     Container,
     TextField,
     Typography,
-    Tooltip, 
 } from '@mui/material';
 
 import { CardContext } from '../../services/CardContext/card';

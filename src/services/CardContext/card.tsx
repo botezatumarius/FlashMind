@@ -98,7 +98,7 @@ type CardProviderProps = {
     testDispatch?: (arg: any) => void
 };
 
-const CardProvider = ({ children, testState, testDispatch }: CardProviderProps ) => {
+const CardProvider = ({ children, testState}: CardProviderProps ) => {
     const [state, dispatch] = useReducer(reducer, testState ? testState : initialState);
 
     useEffect(() => {

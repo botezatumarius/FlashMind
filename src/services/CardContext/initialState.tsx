@@ -1,5 +1,5 @@
 import { loadCards } from '../Save/save';
-import { Card, CardAction, CardState } from '../../Types';
+import { Card, CardState } from '../../Types';
 
 const card1: Card = {
     question: 'What is a linked list?',
@@ -37,7 +37,7 @@ const shuffle = (array: any[]) => {
 export const getInitialState = () => ({
     cards: loadedCards ? shuffle(loadedCards) : cards,
     current: 0,
-    dispatch: (action: CardAction) => undefined,
+    dispatch: () => undefined,
     show: []
 } as CardState);
 

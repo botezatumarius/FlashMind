@@ -56,8 +56,9 @@ export const reducer = (state: StatsState, action: StatsAction) => {
 
 export const getInitialState = () => ({
     ...loadStats(),
-    dispatch: (action: StatsAction) => undefined
-} as StatsState);
+    dispatch: () => undefined
+} as unknown) as StatsState;
+
 
 export const initialState = getInitialState();
 

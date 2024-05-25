@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import { useContext } from 'react';
 import Tooltip from '@mui/material/Tooltip';
 import Typography from '@mui/material/Typography';
 import QuestionCircleIcon from '@mui/icons-material/HelpOutline';

@@ -2,6 +2,7 @@ import { loadCards } from '../Save/save.tsx';
 import { Card, CardState } from '../../Types.tsx';
 
 const card1: Card = {
+    id:1,
     question: 'What is a linked list?',
     subject: 'Linked List',
     answer: `A linked list is a sequential list of nodes. 
@@ -10,6 +11,7 @@ const card1: Card = {
 };
 
 const card2: Card = {
+    id:2,
     question: 'What is a stack?',
     subject: 'Stack',
     answer: `A stack is a one ended linear data structure.

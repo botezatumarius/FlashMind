@@ -1,8 +1,10 @@
 export interface Card {
-    answer: string,
-    question: string,
-    subject: string
+    id: number; 
+    answer: string;
+    question: string;
+    subject: string;
 }
+
 
 export enum CardActionTypes {
     delete = 'delete',
@@ -12,7 +14,8 @@ export enum CardActionTypes {
     select = 'select',
     showAdd = 'showAdd',
     showAll = 'showAll',
-    showRemove = 'showRemove'
+    showRemove = 'showRemove',
+    setCards = 'setCards' // Add this new action type
 }
 
 export type CardAction =
@@ -24,22 +27,23 @@ export type CardAction =
     | { type: CardActionTypes.showAdd, subject: string }
     | { type: CardActionTypes.showAll }
     | { type: CardActionTypes.showRemove, subject: string }
+    | { type: CardActionTypes.setCards, cards: Card[] }; // Add this new action
 
 export interface CardState {
-    cards: Card[],
-    current: number,
-    dispatch: (action: CardAction) => void,
-    show: string[]
+    cards: Card[];
+    current: number;
+    dispatch: (action: CardAction) => void;
+    show: string[];
 }
 
 export interface Stats {
-    right: number,
-    wrong: number,
-    skip: number
+    right: number;
+    wrong: number;
+    skip: number;
 }
 
 export interface StatsType {
-    [key: string]: Stats
+    [key: string]: Stats;
 }
 
 export enum StatsActionType {
@@ -48,16 +52,16 @@ export enum StatsActionType {
     wrong = 'wrong'
 }
 
-export type StatsAction = { 
-    type: StatsActionType, 
-    question: string 
+export type StatsAction = {
+    type: StatsActionType;
+    question: string;
 }
 
 interface StatsDispatch {
-    dispatch: (action: StatsAction) => void
+    dispatch: (action: StatsAction) => void;
 }
 
-export type StatsState = StatsType & StatsDispatch
+export type StatsState = StatsType & StatsDispatch;
 
 export enum SceneTypes {
     answering = "answering",

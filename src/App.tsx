@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import './App.css';
 import Answering from './scenes/Answering/answer.tsx';
 import Writing from './scenes/Writing/write.tsx';
@@ -13,13 +13,37 @@ import IconButton from '@mui/material/IconButton';
 import Brightness4Icon from '@mui/icons-material/Brightness4';
 import Brightness7Icon from '@mui/icons-material/Brightness7';
 import CssBaseline from '@mui/material/CssBaseline';
+import axios from 'axios';
 
 const App: React.FC = () => {
   const [showScene, setShowScene] = useState(SceneTypes.answering);
   const [themeMode, setThemeMode] = useState<'light' | 'dark'>('light');
+  const [token, setToken] = useState<string | null>(null);
+
+  useEffect(() => {
+    const fetchToken = async () => {
+      try {
+        const response = await axios.post('http://localhost:5000/token', {
+          username: 'admin',
+          password: 'password'
+        });
+        const { token } = response.data;
+        setToken(token);
+        localStorage.setItem('token', token);
+      } catch (error) {
+        console.error('Error fetching token:', error);
+      }
+    };
+
+    fetchToken();
+  }, []);
 
   const toggleMode = () => {
     setThemeMode(prevMode => (prevMode === 'light' ? 'dark' : 'light'));
+  };
+
+  const handleShowSceneChange = (scene: SceneTypes) => {
+    setShowScene(scene);
   };
 
   const theme = createTheme({
@@ -33,10 +57,10 @@ const App: React.FC = () => {
       <CssBaseline />
       <CardProvider>
         <StatsProvider>
-          <NavBar showScene={showScene} setShowScene={setShowScene} />
+          <NavBar showScene={showScene} setShowScene={handleShowSceneChange} />
           <Selector />
-          {showScene === SceneTypes.answering && <Answering />}
-          {showScene === SceneTypes.writing && <Writing />}
+          {showScene === SceneTypes.answering && <Answering key={`answering-${Date.now()}`} />}
+          {showScene === SceneTypes.writing && <Writing key={`writing-${Date.now()}`} />}
           <footer
             style={{
               position: 'fixed',

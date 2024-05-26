@@ -53,12 +53,21 @@ const Writing: React.FC = () => {
                     saveCards(updatedCards);
                     dispatch({ type: CardActionTypes.setCards, cards: updatedCards });
                     setActionStatus('updated');
+                    clearAll();
                 }
             } catch (error) {
                 console.error('Error updating card:', error);
             }
         } else {
             try {
+                const highestId = storedCards.reduce((maxId, card) => Math.max(card.id, maxId), 0);
+                const newCard = { id: highestId + 1, answer, question, subject };
+                const updatedCards = [...storedCards, newCard];
+                saveCards(updatedCards);
+                dispatch({ type: CardActionTypes.setCards, cards: updatedCards });
+                setActionStatus('added');
+                clearAll();
+
                 const response = await axios.post('http://localhost:5000/flashmind', {
                     answer,
                     question,
@@ -70,17 +79,59 @@ const Writing: React.FC = () => {
                 });
 
                 if (response.status === 201) {
-                    const newCard = { id: response.data.id, answer, question, subject };
-                    const updatedCards = [...storedCards, newCard];
-                    saveCards(updatedCards);
-                    dispatch({ type: CardActionTypes.setCards, cards: updatedCards });
-                    setActionStatus('added');
+                    const serverId = response.data.id;
+                    const updatedCardsWithServerId = updatedCards.map(card =>
+                        card.id === newCard.id ? { ...card, id: serverId } : card
+                    );
+                    saveCards(updatedCardsWithServerId);
+                    dispatch({ type: CardActionTypes.setCards, cards: updatedCardsWithServerId });
                 }
             } catch (error) {
                 console.error('Error saving card:', error);
             }
         }
     };
+
+    const handleDelete = async () => {
+        const token = localStorage.getItem('token');
+        if (!token) {
+            console.error('No token found');
+            return;
+        }
+    
+        const storedCards = loadCards() || [];
+        const cardIndex = storedCards.findIndex((storedCard: Card) =>
+            storedCard.question === question && storedCard.answer === answer && storedCard.subject === subject
+        );
+    
+        if (cardIndex !== -1) {
+            const cardToDelete = storedCards[cardIndex];
+            let cardId = cardToDelete.id;
+            if (!cardId) {
+                const highestId = storedCards.reduce((maxId, card) => Math.max(card.id || 0, maxId), 0);
+                cardId = highestId + 1;
+            }
+            try {
+                const response = await axios.delete(`http://localhost:5000/flashmind/${cardId}`, {
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                    },
+                });
+    
+                if (response.status === 200) {
+                    const updatedCards = storedCards.filter(card => card.id !== cardToDelete.id);
+                    saveCards(updatedCards);
+                    dispatch({ type: CardActionTypes.setCards, cards: updatedCards });
+                    setActionStatus('deleted');
+                    clearAll();
+                }
+            } catch (error) {
+                console.error('Error deleting card:', error);
+            }
+        } else {
+            setActionStatus('not found');
+        }
+    };    
 
     const handleCloseSnackbar = () => {
         setActionStatus('');
@@ -89,7 +140,7 @@ const Writing: React.FC = () => {
     return (
         <Container style={{ marginTop: '20px', width: '50%' }}>
             <Button style={{ marginBottom: '10px', marginRight: '20px' }} variant="contained" onClick={() => dispatch({ type: CardActionTypes.new })}>New Card</Button>
-            <Button style={{ marginBottom: '10px' }} variant="contained" onClick={() => dispatch({ type: CardActionTypes.delete, question })}>Delete this Card</Button>
+            <Button style={{ marginBottom: '10px' }} variant="contained" onClick={handleDelete}>Delete this Card</Button>
             <form onSubmit={handleSave}>
                 <Typography variant="h6" gutterBottom>Subject</Typography>
                 <TextField
@@ -134,7 +185,11 @@ const Writing: React.FC = () => {
                 open={!!actionStatus}
                 autoHideDuration={3000}
                 onClose={handleCloseSnackbar}
-                message={`Question card has been ${actionStatus}`}
+                message={
+                    actionStatus === 'not found'
+                        ? 'Card not found in local storage'
+                        : `Question card has been ${actionStatus}`
+                }
             />
         </Container>
     );

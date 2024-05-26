@@ -58,10 +58,14 @@ export const getNext = ({
         return next;
     } else {
         const showCards = cards.filter(card => show.includes(card.subject));
+        if (showCards.length === 0) {
+            return current;
+        }
         const showCurrent = showCards.findIndex(card => card.question === cards[current].question);
         const showTotal = showCards.length - 1;
         const showNext = showCurrent + 1 <= showTotal ? showCurrent + 1 : 0;
-        const next = cards.findIndex(card => card.question === showCards[showNext].question);
-        return next;
+        const next = cards.findIndex(card => card.question === showCards[showNext]?.question);
+        return next !== -1 ? next : current;
     };
 };
+
